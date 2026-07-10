@@ -6,6 +6,8 @@ strip_quotes() {
   v="${v%\"}"
   v="${v#\'}"
   v="${v%\'}"
+  v="${v#"${v%%[![:space:]]*}"}"
+  v="${v%"${v##*[![:space:]]}"}"
   printf '%s' "$v"
 }
 
@@ -29,7 +31,7 @@ for key in RAILS_ENV DATABASE_URL RAILS_MASTER_KEY SESSION_SECRET; do
 done
 
 if [ "${1}" = "./bin/rails" ] && [ "${2}" = "server" ]; then
-  ./bin/rails db:prepare
+  ./bin/rails db:prepare || { echo "ERROR: db:prepare failed with exit $?"; exit 1; }
 fi
 
 exec "$@"

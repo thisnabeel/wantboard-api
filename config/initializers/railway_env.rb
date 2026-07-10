@@ -4,6 +4,6 @@
   value = ENV[key]
   next if value.blank?
 
-  stripped = value.strip.delete_prefix('"').delete_suffix('"').delete_prefix("'").delete_suffix("'")
+  stripped = value.strip.delete_prefix('"').delete_suffix('"').delete_prefix("'").delete_suffix("'").strip
   ENV[key] = stripped if stripped != value
 end
