@@ -1,8 +1,35 @@
 #!/bin/bash -e
 
-# If running the rails server then create or migrate existing database
-if [ "${1}" == "./bin/rails" ] && [ "${2}" == "server" ]; then
+strip_quotes() {
+  local v="$1"
+  v="${v#\"}"
+  v="${v%\"}"
+  v="${v#\'}"
+  v="${v%\'}"
+  printf '%s' "$v"
+}
+
+for key in RAILS_ENV DATABASE_URL RAILS_MASTER_KEY SESSION_SECRET; do
+  val="${!key:-}"
+  if [ -n "$val" ]; then
+    stripped="$(strip_quotes "$val")"
+    if [ "$stripped" != "$val" ]; then
+      export "$key=$stripped"
+    fi
+  fi
+done
+
+echo "Boot check (set / unset):"
+for key in RAILS_ENV DATABASE_URL RAILS_MASTER_KEY SESSION_SECRET; do
+  if [ -n "${!key:-}" ]; then
+    echo "  $key=set"
+  else
+    echo "  $key=unset"
+  fi
+done
+
+if [ "${1}" = "./bin/rails" ] && [ "${2}" = "server" ]; then
   ./bin/rails db:prepare
 fi
 
-exec "${@}"
+exec "$@"

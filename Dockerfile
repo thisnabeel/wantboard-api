@@ -51,6 +51,8 @@ RUN bundle install && \
 # Copy application code
 COPY . .
 
+RUN cp config/application.docker.yml config/application.yml
+
 # Precompile bootsnap code for faster boot times.
 # -j 1 disable parallel compilation to avoid a QEMU bug: https://github.com/rails/bootsnap/issues/495
 RUN bundle exec bootsnap precompile -j 1 app/ lib/
@@ -75,4 +77,4 @@ ENTRYPOINT ["/rails/bin/docker-entrypoint"]
 
 # Start the server by default, this can be overwritten at runtime
 EXPOSE 3000
-CMD ["./bin/rails", "server"]
+CMD ["./bin/rails", "server", "-b", "0.0.0.0"]

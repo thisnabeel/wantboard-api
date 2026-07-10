@@ -1,0 +1,3 @@
+production:
+  DATABASE_URL: <%= ENV["DATABASE_URL"] %>
+  SESSION_SECRET: <%= ENV["SESSION_SECRET"] %>

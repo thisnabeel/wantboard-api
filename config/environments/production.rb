@@ -27,8 +27,8 @@ Rails.application.configure do
   # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
   config.force_ssl = true
 
-  # Skip http-to-https redirect for the default health check endpoint.
-  # config.ssl_options = { redirect: { exclude: ->(request) { request.path == "/up" } } }
+  # Skip http-to-https redirect for health check endpoints (Railway probes HTTP).
+  config.ssl_options = { redirect: { exclude: ->(request) { request.path.in?(%w[/up /api/healthz]) } } }
 
   # Log to STDOUT with the current request id as a default log tag.
   config.log_tags = [ :request_id ]
@@ -38,7 +38,7 @@ Rails.application.configure do
   config.log_level = ENV.fetch("RAILS_LOG_LEVEL", "info")
 
   # API health check used by load balancers
-  config.silence_healthcheck_path = "/up"
+  config.silence_healthcheck_path = "/api/healthz"
   config.host_authorization = { exclude: ->(request) { request.path.in?(%w[/up /api/healthz]) } }
 
   # Don't log any deprecations.

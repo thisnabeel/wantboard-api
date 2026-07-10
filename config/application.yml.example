@@ -1,5 +1,6 @@
 # Copy to config/application.yml for local development (gitignored).
 # On Railway, set these as service variables instead — application.yml is not in the Docker image.
+# Railway raw editor values should NOT use quotes around variable values.
 
 development:
   DATABASE_URL: postgresql://postgres:YOUR_PASSWORD@YOUR_HOST.proxy.rlwy.net:YOUR_PORT/railway?sslmode=require
