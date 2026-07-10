@@ -1,3 +1,6 @@
+# Copy to config/application.yml for local development (gitignored).
+# On Railway, set these as service variables instead — application.yml is not in the Docker image.
+
 development:
   DATABASE_URL: postgresql://postgres:YOUR_PASSWORD@YOUR_HOST.proxy.rlwy.net:YOUR_PORT/railway?sslmode=require
   SESSION_SECRET: change-me-use-a-long-random-string
@@ -9,3 +12,12 @@ test:
 production:
   DATABASE_URL: postgresql://postgres:YOUR_PASSWORD@postgres.railway.internal:5432/railway
   SESSION_SECRET: change-me-use-a-long-random-string
+
+# Railway deploy checklist:
+# 1. Create a new service from this repo (root = api/)
+# 2. Link your Postgres service (Railway injects DATABASE_URL automatically)
+# 3. Set variables on the API service:
+#      RAILS_ENV=production
+#      RAILS_MASTER_KEY=<contents of config/master.key>
+#      SESSION_SECRET=<long random string>
+# 4. Generate a public domain for the API service
