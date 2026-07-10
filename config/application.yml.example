@@ -1,0 +1,11 @@
+development:
+  DATABASE_URL: postgresql://postgres:YOUR_PASSWORD@YOUR_HOST.proxy.rlwy.net:YOUR_PORT/railway?sslmode=require
+  SESSION_SECRET: change-me-use-a-long-random-string
+
+test:
+  DATABASE_URL: postgresql://postgres:YOUR_PASSWORD@YOUR_HOST.proxy.rlwy.net:YOUR_PORT/railway?sslmode=require
+  SESSION_SECRET: test-session-secret
+
+production:
+  DATABASE_URL: postgresql://postgres:YOUR_PASSWORD@postgres.railway.internal:5432/railway
+  SESSION_SECRET: change-me-use-a-long-random-string
