@@ -81,13 +81,19 @@ class ListingsController < ApplicationController
   end
 
   def create_params
-    params.permit(:title, :description, :category, :condition, :budget, :location, :isUrgent)
+    map_listing_attributes(params.permit(:title, :description, :category, :condition, :budget, :location, :isUrgent))
   end
 
   def update_params
-    permitted = params.permit(:title, :description, :category, :condition, :budget, :location, :isUrgent, :status)
-    permitted[:updated_at] = Time.current if permitted.present?
-    permitted
+    attrs = map_listing_attributes(params.permit(:title, :description, :category, :condition, :budget, :location, :isUrgent, :status))
+    attrs[:updated_at] = Time.current if attrs.present?
+    attrs
+  end
+
+  def map_listing_attributes(permitted)
+    attrs = permitted.to_h.symbolize_keys
+    attrs[:is_urgent] = attrs.delete(:isUrgent) if attrs.key?(:isUrgent)
+    attrs
   end
 
   def listing_counts_for(user_ids)

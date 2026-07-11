@@ -1,3 +1,5 @@
+# Figaro template baked into the Docker image.
+# Railway service variables are set in the container ENV first and take precedence.
 production:
   DATABASE_URL: <%= ENV["DATABASE_URL"] %>
   SESSION_SECRET: <%= ENV["SESSION_SECRET"] %>
